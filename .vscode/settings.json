@@ -1,0 +1,12 @@
+{
+    "cmake.configureOnOpen": true,
+    "files.associations": {
+        "TomasuloMachine.C": "cpp",
+        "Instruction.C": "cpp",
+        "Register.C": "cpp",
+        "InstructionQueue.C": "cpp",
+        "ReservationStation.C": "cpp",
+        "ExecutionUnit.C": "cpp",
+        "RegisterFile.C": "cpp"
+    }
+}

@@ -1,5 +1,13 @@
+#include <iostream>
+#include <cmath>
 
-#include "TomasuloMachine.h"
+#include "RegisterAllocationTable.cpp"
+#include "Instruction.cpp"
+#include "Register.cpp"
+#include "InstructionQueue.cpp"
+#include "ReservationStation.cpp"
+#include "ExecutionUnit.cpp"
+#include "RegisterFile.cpp"
 
 using namespace std;
 
