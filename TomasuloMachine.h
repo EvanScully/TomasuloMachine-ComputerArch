@@ -4,63 +4,15 @@
 #include <fstream>
 #include <string>
 
+#include "InstructionQueue.h"
+#include "Instruction.h"
+#include "RegisterFile.h"
+#include "ExecutionUnit.h"
+#include "RegisterAllocationTable.h"
+#include "ReservationStation.h"
 
-class Instruction {
-private:
+#define IQ_SIZE 100
+#define RF_SIZE 8
 
-public:
-	int operation;		// operation
-	int Rs;				// location of Rs
-	int Rt;				// location of Rt
-	int Rd;				// location of Rd
-
-	Instruction(int oper, int regs, int regt, int regd);
-};
-
-class Register {
-private:
-
-public:
-	int Loc;			// RF Location
-	int val;			// Value of Location
-
-};
-
-class InstructionQueue {
-private:
-
-public:
-	Instruction myinstr;
-	int numInstr;
-	void Issue();
-};
-
-class ReservationStation {
-private:
-
-public:
-	void Dispatch();
-};
-
-class ExecutionUnit {
-private:
-
-public:
-	void Broadcast();
-};
-
-class RegisterFile {
-private:
-
-public:
-
-};
-
-class RegisterAllocationTable {
-private:
-
-public:
-	int callVal();
-};
 
 int toInt(std::string str);

@@ -1,0 +1,3 @@
+﻿  TomasuloMachine.cpp
+C:\Users\scull\source\repos\TomasuloMachine-ComputerArch\TomasuloMachine.cpp(265,15): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  Tomasulo Machine.vcxproj -> C:\Users\scull\Source\Repos\TomasuloMachine-ComputerArch\Debug\Tomasulo Machine.exe
