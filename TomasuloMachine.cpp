@@ -1,6 +1,13 @@
 
 #include "TomasuloMachine.h"
 
+#include "InstructionQueue.h"
+#include "Instruction.h"
+#include "RegisterFile.h"
+#include "ExecutionUnit.h"
+#include "RegisterAllocationTable.h"
+#include "ReservationStation.h"
+
 #define IQ_SIZE 100
 #define RF_SIZE 8
 
@@ -100,11 +107,11 @@ Instruction::Instruction(int oper, int regs, int regt, int regd) {
 	Rt = regt;
 	Rd = regd;
 }
-Instruction::Instruction() {
+Instruction::Instruction() {	//Essentially a NOP
 	operation = 5;
-	Rs = 32;
-	Rt = 32;
-	Rd = 32;
+	Rs = RF_SIZE;
+	Rt = RF_SIZE;
+	Rd = RF_SIZE;
 }
 void Instruction::printInstr() {
 	if (operation == 5) {
