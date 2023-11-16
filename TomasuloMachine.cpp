@@ -1,8 +1,13 @@
 
 #include "TomasuloMachine.h"
 
+#define IQ_SIZE 100
+#define RF_SIZE 8
+
 using namespace std;
 
+// Main Function:
+//---------------------------------------------------------------//
 int main()
 {
 	// Read Instruction File
@@ -24,6 +29,9 @@ int main()
 	int posInstr = 0;
 	int queuePos = 0;
 	int instr[4] = { 0, 0, 0, 0 };
+	InstructionQueue iQueue = InstructionQueue();
+	RegisterFile regFile = RegisterFile();
+	//iQueue.Issue();
 
 	std::ifstream myfile("Instructions.txt");
 	if (myfile.is_open()) {
@@ -41,7 +49,7 @@ int main()
 				int val = toInt(mystr);
 				if (line == 1) {
 					numInstr = val;
-					cout << " Line " << line << " :";
+					//cout << " Line " << line << " :";
 				}
 				if (line == 2) {
 					numClockCycles = val;
@@ -50,10 +58,15 @@ int main()
 					instr[posInstr] = val;
 					if (posInstr == 3) {
 						Instruction temp(instr[0], instr[1], instr[2], instr[3]);
-						cout << " Instruction: " << temp.operation << temp.Rs << temp.Rt << temp.Rd;
+						iQueue.enQueue(temp);
+						//cout << " Instruction: " << temp.operation << temp.Rs << temp.Rt << temp.Rd;
 						
 					}
 					posInstr = (posInstr + 1) % 4;
+				}
+				if ((line > (2 + numInstr))) {
+					int loc = line - (3 + numInstr);
+					regFile.setVal(loc, val);
 				}
 
 				mystrEOL = 1;
@@ -62,7 +75,7 @@ int main()
 			if (mychar == '\n') {
 
 				line++;
-				cout << "\n Line " << line << " :";
+				//cout << "\n Line " << line << " :";
 				
 			}
 				
@@ -73,19 +86,168 @@ int main()
 			//cout << mychar << "";
 		}
 	}
+	iQueue.displayQueue();
+	regFile.printRF();
 	return 0;
 
 }
 
+//Intruction Class Functions:
+//----------------------------------------------------------------//
 Instruction::Instruction(int oper, int regs, int regt, int regd) {
 	operation = oper;
 	Rs = regs;
 	Rt = regt;
 	Rd = regd;
 }
+Instruction::Instruction() {
+	operation = 5;
+	Rs = 32;
+	Rt = 32;
+	Rd = 32;
+}
+void Instruction::printInstr() {
+	if (operation == 5) {
+		cout << "NOP";
+		return;
+	}
+	else {
+		cout << "r" << Rd << " = r" << Rs;
+		switch (operation) {
+		case 0:
+			cout << " + r" << Rt << endl;
+			break;
+		case 1:
+			cout << " - r" << Rt << endl;
+			break;
+		case 2:
+			cout << " * r" << Rt << endl;
+			break;
+		case 3:
+			cout << " / r" << Rt << endl;
+			break;
+		default:
+			break;
+		}
+	}
+}
+//---------------------------------------------------------------//
 
 
+//Instruction Queue Class Functions:
+//---------------------------------------------------------------//
+InstructionQueue::InstructionQueue() {
+	front = -1;
+	rear = -1;
+}
+bool InstructionQueue::isFull() {
+	if (front == 0 && rear == IQ_SIZE - 1) {
+		return true;
+	}
+	return false;
+}
+bool InstructionQueue::isEmpty() {
+	if (front == -1) return true;
+	else return false;
+}
+void InstructionQueue::enQueue(Instruction value) {
+	if (isFull()) {
+		cout << endl << "Queue is full!!";
+	}
+	else {
+		if (front == -1) front = 0;
+		rear++;
+		myqueue[rear] = value;
+		
+	}
+}
+Instruction InstructionQueue::Issue() {
+	Instruction value = Instruction();
+	if (isEmpty()) {
+		cout << "Queue is empty, You get a NOP!!" << endl; return(value);
+	}
+	else {
+		value = myqueue[front]; if (front >= rear) {      //only one element in queue
+			front = -1;
+			rear = -1;
+		}
+		else {
+			front++;
+		}
+		
+		return(value);
+	}
+}
+void InstructionQueue::displayQueue()
+{
+	int i;
+	if (isEmpty()) {
+		cout << endl << "Instrcution Queue is Empty!!" << endl;
+	}
+	else {
+		cout << "Instructions:\n";
+		for (i = front; i <= rear; i++)
+			myqueue[i].printInstr();
+	}
+}
+//---------------------------------------------------------------//
 
+
+//Register File Class Functions:
+//---------------------------------------------------------------//
+RegisterFile::RegisterFile() {
+	int i = 0;
+	for (i = 0; i < RF_SIZE; i++) {
+		rFile[i] = 0;
+	}
+	index = i;
+	value = rFile[i];
+}
+void RegisterFile::setVal(int location, int val) {
+	if (location < RF_SIZE) {
+		index = location;
+		value = val;
+		rFile[location] = val;
+	}
+	else {
+		cout << "Unable to set " << val << " to register " << location << " because register DNE \n";
+	}
+}
+int RegisterFile::getVal(int location) {
+	if (location < RF_SIZE) {
+		index = location;
+		return(rFile[location]);
+	}
+	else {
+		cout << "Unable to get a value from register " << location << " because register DNE \n";
+		return(0);
+	}
+}
+int RegisterFile::getLastIndex() {
+	return(index);
+}
+int RegisterFile::getLastVal() {
+	return(value);
+}
+void RegisterFile::clearRF() {
+	int i = 0;
+	for (i = 0; i < RF_SIZE; i++) {
+		rFile[i] = 0;
+	}
+}
+void RegisterFile::printRF() {
+	cout << "Register File: \n";
+	for (int i = 0; i < RF_SIZE; i++) {
+		cout << "r" << i << " : ";
+		if (rFile[i] == 0)
+			cout << "\n";
+		else
+			cout << rFile[i] << endl;
+	}
+}
+//---------------------------------------------------------------//
+
+// toInt Function
 int toInt(string str) {
 	int len = str.length();
 	int val = 0;
