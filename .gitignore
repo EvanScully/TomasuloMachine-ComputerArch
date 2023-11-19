@@ -3,3 +3,5 @@
 ################################################################################
 
 /.vs/Tomasulo Machine/v17/Browse.VC.opendb
+/Instruction.h
+/Instruction.cpp
