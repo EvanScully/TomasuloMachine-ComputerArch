@@ -5,14 +5,15 @@
 #include <string>
 
 #include "InstructionQueue.h"
-#include "Instruction.h"
 #include "RegisterFile.h"
 #include "ExecutionUnit.h"
 #include "RegisterAllocationTable.h"
 #include "ReservationStation.h"
 
-#define IQ_SIZE 100
-#define RF_SIZE 8
-
+#ifndef TOMASULOMACHINE_H
+#define TOMASULOMACHINE_H
 
 int toInt(std::string str);
+
+#endif 
+
