@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #pragma once
 
 #include <iostream>
@@ -9,19 +8,17 @@
 #include <array>
 #include <vector>
 
-#include "InstructionQueue.h"
-#include "Instruction.h"
-#include "RegisterFile.h"
+#include "InstructionQueue.cpp"
+#include "RegisterFile.cpp"
 #include "ExecutionUnit.h"
 #include "RegisterAllocationTable.h"
-#include "ReservationStation.h"
+#include "ReservationStation.cpp"
 
 #define IQ_SIZE 100
 #define RF_SIZE 8
 
 
 int toInt(std::string str);
-=======
 #pragma once
 
 #include <iostream>
@@ -40,5 +37,3 @@ int toInt(std::string str);
 int toInt(std::string str);
 
 #endif 
-
->>>>>>> 58e39b6d21926b6dee40983366fa9cf8807b9b41
