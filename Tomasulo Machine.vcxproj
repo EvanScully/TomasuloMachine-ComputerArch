@@ -127,9 +127,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ExecutionUnit.h" />
+    <ClInclude Include="InstructionQueue.h" />
+    <ClInclude Include="RegisterAllocationTable.h" />
+    <ClInclude Include="RegisterFile.h" />
+    <ClInclude Include="ReservationStation.h" />
     <ClInclude Include="TomasuloMachine.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="InstructionQueue.cpp" />
+    <ClCompile Include="RegisterFile.cpp" />
+    <ClCompile Include="ReservationStation.cpp" />
     <ClCompile Include="TomasuloMachine.cpp" />
   </ItemGroup>
   <ItemGroup>
