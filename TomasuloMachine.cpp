@@ -12,6 +12,8 @@ int main() {
 	int queuePos = 0;
 	std::vector<std::array<int,4>> instructionsTxt;
 	std::string tempString;
+	InstructionQueue iQueue = InstructionQueue();
+	RegisterFile regFile = RegisterFile();
 
 	std::ifstream myfile("Instructions.txt");
 	if (myfile.is_open()) {
@@ -48,10 +50,14 @@ int main() {
 						(*it)[posInstr] = ((*it)[posInstr] * 10) + std::stoi(tempString);
 					}
 				}
+				Instruction temp(instructionsTxt[line][0], instructionsTxt[line][1], instructionsTxt[line][2], instructionsTxt[line][3]);
+				iQueue.enQueue(temp);
 				cout << instructionsTxt[line][0] << " " << instructionsTxt[line][1] << " " << instructionsTxt[line][2] << " " << instructionsTxt[line][3] << "\n";
 			}
 			//Get initial RF values and put them in the list
 			if ((line > numInstr + 1)) {
+				int loc = line - (3 + numInstr);
+				regFile.setVal(loc, val);
 				instructionsTxt.push_back({val, 0, 0, 0});
 				cout << instructionsTxt[line][0] << "\n";
 			}
@@ -61,11 +67,4 @@ int main() {
 			
 		}
 	} //End array Creation
-}
-
-Instruction::Instruction(int oper, int regs, int regt, int regd) {
-	operation = oper;
-	Rs = regs;
-	Rt = regt;
-	Rd = regd;
 }
