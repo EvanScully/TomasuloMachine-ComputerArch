@@ -1,3 +1,5 @@
+#include <iostream>
+#include <cmath>
 
 #include "TomasuloMachine.h"
 
@@ -5,90 +7,69 @@
 #include <fstream>
 #include <string>
 
-#include "InstructionQueue.h"
-#include "RegisterFile.h"
-#include "ExecutionUnit.h"
-#include "RegisterAllocationTable.h"
-#include "ReservationStation.h"
 
 using namespace std;
 
-// Main Function:
-//---------------------------------------------------------------//
-int main()
-{
-	int numInstr = 0, numClockCycles = 0, posInstr = 0, queuePos = 0;
-	int instr[4] = { 0, 0, 0, 0 };
+int main() {
+	int numInstr = 0;
+	int numClockCycles = 0;
+	int posInstr = 0;
+	int queuePos = 0;
+	std::vector<std::array<int,4>> instructionsTxt;
+	std::string tempString;
 	InstructionQueue iQueue = InstructionQueue();
 	RegisterFile regFile = RegisterFile();
-	//iQueue.Issue();
 
 	std::ifstream myfile("Instructions.txt");
 	if (myfile.is_open()) {
 		char mychar;
-		int line = 1;
+		int line = 0;
 		int temp = 0;
-		bool mystrEOL = 0;
-		string mystr = "";
-		while (myfile) {
-			mystrEOL = 0;
-			mychar = myfile.get();
-			if (mychar == '\n' || mychar == ' ') {
-
-				int val = toInt(mystr);
-				if (line == 1) {
-					numInstr = val;
-					//cout << " Line " << line << " :";
-				}
-				if (line == 2) {
-					numClockCycles = val;
-				}
-				if ((line > 2) && (line <= (2 + numInstr))) {
-					instr[posInstr] = val;
-					if (posInstr == 3) {
-						Instruction temp(instr[0], instr[1], instr[2], instr[3]);
-						iQueue.enQueue(temp);
-						//cout << " Instruction: " << temp.operation << temp.Rs << temp.Rt << temp.Rd;
-
+		std::string mystr;
+		
+		while (std::getline(myfile, mystr)) {
+			
+			int val = std::stoi(mystr);
+			//Get line 1 (number of instructions) and put them in the list
+			if (line == 0) {
+				instructionsTxt.push_back({val, 0, 0, 0});
+				numInstr = val;
+				cout << instructionsTxt[line][0] << "\n";
+			}
+			//Get line 2 (number of clock cycles) and put them in the list
+			if (line == 1) {
+				instructionsTxt.push_back({val, 0, 0, 0});
+				numClockCycles = val;
+				cout << instructionsTxt[line][0] << "\n";
+			}
+			//Get instructions and put them in the list
+			if ((line > 1) && (line <= numInstr + 1)) {
+				posInstr = 0;
+				instructionsTxt.push_back({0,0,0,0});
+				for(int k = 0; k < mystr.length(); k++) {
+					if(mystr[k] == ' ') {
+						posInstr++;
+					} else {
+						tempString = mystr[k];
+						auto it = std::next(instructionsTxt.begin(), line);
+						(*it)[posInstr] = ((*it)[posInstr] * 10) + std::stoi(tempString);
 					}
-					posInstr = (posInstr + 1) % 4;
 				}
-				if ((line > (2 + numInstr))) {
-					int loc = line - (3 + numInstr);
-					regFile.setVal(loc, val);
-				}
-				mystrEOL = 1;
-				mystr = "";
+				Instruction temp(instructionsTxt[line][0], instructionsTxt[line][1], instructionsTxt[line][2], instructionsTxt[line][3]);
+				iQueue.enQueue(temp);
+				cout << instructionsTxt[line][0] << " " << instructionsTxt[line][1] << " " << instructionsTxt[line][2] << " " << instructionsTxt[line][3] << "\n";
 			}
-			if (mychar == '\n') {
-				line++;
-				//cout << "\n Line " << line << " :";			
+			//Get initial RF values and put them in the list
+			if ((line > numInstr + 1)) {
+				int loc = line - (3 + numInstr);
+				regFile.setVal(loc, val);
+				instructionsTxt.push_back({val, 0, 0, 0});
+				cout << instructionsTxt[line][0] << "\n";
 			}
-			if (!mystrEOL) {
-				mystr += mychar;
-			}
-			//cout << mychar << "";
+
+			line++;
+			mystr = "";
+			
 		}
-	}
-	iQueue.displayQueue();
-	regFile.printRF();
-	Instruction inst = iQueue.Issue();
-	return 0;
-
-}
-
-
-// toInt Function
-int toInt(string str) {
-	int len = str.length();
-	int val = 0;
-	for (int i = 0; i < len; i++) {
-		char a = str[i];
-		for (int j = 0; j < 10; j++) {
-			if (a == (j + 48)) {
-				val = val + (j * pow(10,len - i - 1));
-			}
-		}
-	}
-	return val;
+	} //End array Creation
 }
