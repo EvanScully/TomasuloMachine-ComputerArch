@@ -89,11 +89,11 @@ int main() {
 		cout << "Clock Cycle:" << clockCycle << "\n";
 		
 		//Broadcast
-		if (executionUnitAS.isReady()) {
+		if (executionUnitAS.isReady(clockCycle)) {
 			broadcast = executionUnitAS.Broadcast();
 		}
 		if (broadcast.isBroadcasting) {
-			if (executionUnitMD.isReady()) {
+			if (executionUnitMD.isReady(clockCycle)) {
 				broadcast = executionUnitMD.Broadcast();
 			}
 		}
