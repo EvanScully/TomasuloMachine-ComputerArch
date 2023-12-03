@@ -73,13 +73,13 @@ Instruction::Instruction(int oper, int regs, int regt, int regd) {
 	Rd = regd;
 }
 Instruction::Instruction() {	//Essentially a NOP
-	operation = 5;
+	operation = 4;
 	Rs = RF_SIZE;
 	Rt = RF_SIZE;
 	Rd = RF_SIZE;
 }
 void Instruction::printInstr() {
-	if (operation == 5) {
+	if (operation == 4) {
 		cout << "NOP";
 		return;
 	}
