@@ -1,4 +1,3 @@
-#pragma once
 
 #include <iostream>
 #include <fstream>
@@ -22,6 +21,10 @@ public:
 	int Qj;
 	int Qk;
 	int Disp;
+	int Dest;
+	int Broad;
+	bool isBroadcasting;
+	int getPos();
 };
 
 class ReservationStation {
@@ -30,6 +33,7 @@ private:
 public:
 	ReservationStation();
 	bool isBusy(int loc);
+	void setBusy(int loc, bool val);
 	bool isFull(Instruction instr);
 	bool isVReady();
 	bool isQReady();
@@ -38,14 +42,23 @@ public:
 	void setVk(int loc, RegisterFile rFile);
 	void setQj(int loc, int q);
 	void setQk(int loc, int q);
+	void setDisp(int loc, int disp);
+	void setDest(int loc, int dest);
+	void setBroad(int loc, int broad);
+	void setIsBroadcasting(int loc, bool val);
+	void clearStation(int loc);
 	int getOpcode(int loc);
 	int getVj(int loc);
 	int getVk(int loc);
 	int getQj(int loc);
 	int getQk(int loc);
+	int getDest(int loc);
+	int getBroad(int loc);
+	bool isBroadcasting(int loc);
 	void printRS();
 	void Issue(Instruction instr);
-	Station Dispatch(int loc, int cc);
+	Station DispatchAS();
+	Station DispatchMD();
 };
 
 

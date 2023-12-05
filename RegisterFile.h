@@ -15,7 +15,6 @@ public:
 	int index;
 	int value;
 	RegisterFile();
-	RegisterFile(int num);
 	void setVal(int location, int val);
 	int getVal(int location);
 	int getLastIndex();
