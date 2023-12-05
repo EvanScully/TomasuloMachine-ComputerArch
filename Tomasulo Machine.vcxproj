@@ -135,9 +135,6 @@
     <ClInclude Include="TomasuloMachine.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="InstructionQueue.cpp" />
-    <ClCompile Include="RegisterFile.cpp" />
-    <ClCompile Include="ReservationStation.cpp" />
     <ClCompile Include="TomasuloMachine.cpp" />
   </ItemGroup>
   <ItemGroup>

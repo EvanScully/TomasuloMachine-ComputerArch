@@ -1,1 +1,2 @@
 C:\Users\scull\source\repos\TomasuloMachine-ComputerArch\Debug\Tomasulo Machine.exe
+C:\Users\scull\source\repos\TomasuloMachine-ComputerArch\TomasuloMachine-ComputerArch\Debug\Tomasulo Machine.exe

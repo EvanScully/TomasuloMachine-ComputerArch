@@ -528,7 +528,7 @@ int main() {
 			}
 			//Get initial RF values and put them in the list
 			if ((line > numInstr + 1)) {
-				int loc = line - (3 + numInstr);
+				int loc = line - (2 + numInstr);
 				regFile.setVal(loc,val);
 				instructionsTxt.push_back({val, 0, 0, 0});
 				cout << instructionsTxt[line][0] << "\n";
@@ -552,8 +552,8 @@ int main() {
 
 	for(int i=0; i < numClockCycles; i++) {
 		clockCycle++;
-		cout << "Clock Cycle: " << clockCycle << "\n";
-		cout << "\n";
+		//cout << "Clock Cycle: " << clockCycle << "\n";
+		//cout << "\n";
 		
 		//Broadcast
 		if (executionUnitMD.isReady(clockCycle)) {
@@ -677,9 +677,11 @@ int main() {
 				}
 			}
 		}
-		iQueue.displayQueue();
-		regFile.printRF();
-		reservationStation.printRS();
-		rat.printRAT();
+		
 	}
+	cout << "-----------------" << endl << "Clock Cycle: " << clockCycle << endl << endl;
+	iQueue.displayQueue();
+	regFile.printRF();
+	reservationStation.printRS();
+	rat.printRAT();
 }

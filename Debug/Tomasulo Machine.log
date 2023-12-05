@@ -1,36 +1,4 @@
-﻿TomasuloMachine.obj : error LNK2005: "public: __thiscall Instruction::Instruction(int,int,int,int)" (??0Instruction@@QAE@HHHH@Z) already defined in InstructionQueue.obj
-TomasuloMachine.obj : error LNK2005: "public: __thiscall Instruction::Instruction(void)" (??0Instruction@@QAE@XZ) already defined in InstructionQueue.obj
-TomasuloMachine.obj : error LNK2005: "public: __thiscall InstructionQueue::InstructionQueue(void)" (??0InstructionQueue@@QAE@XZ) already defined in InstructionQueue.obj
-TomasuloMachine.obj : error LNK2005: "public: __thiscall RegisterFile::RegisterFile(void)" (??0RegisterFile@@QAE@XZ) already defined in RegisterFile.obj
-TomasuloMachine.obj : error LNK2005: "public: __thiscall ReservationStation::ReservationStation(void)" (??0ReservationStation@@QAE@XZ) already defined in ReservationStation.obj
-TomasuloMachine.obj : error LNK2005: "public: __thiscall Station::Station(void)" (??0Station@@QAE@XZ) already defined in ReservationStation.obj
-TomasuloMachine.obj : error LNK2005: "public: class Station __thiscall ReservationStation::Dispatch(int,int)" (?Dispatch@ReservationStation@@QAE?AVStation@@HH@Z) already defined in ReservationStation.obj
-TomasuloMachine.obj : error LNK2005: "public: class Instruction __thiscall InstructionQueue::Issue(void)" (?Issue@InstructionQueue@@QAE?AVInstruction@@XZ) already defined in InstructionQueue.obj
-TomasuloMachine.obj : error LNK2005: "public: void __thiscall ReservationStation::Issue(class Instruction)" (?Issue@ReservationStation@@QAEXVInstruction@@@Z) already defined in ReservationStation.obj
-TomasuloMachine.obj : error LNK2005: "public: void __thiscall RegisterFile::clearRF(void)" (?clearRF@RegisterFile@@QAEXXZ) already defined in RegisterFile.obj
-TomasuloMachine.obj : error LNK2005: "public: void __thiscall InstructionQueue::displayQueue(void)" (?displayQueue@InstructionQueue@@QAEXXZ) already defined in InstructionQueue.obj
-TomasuloMachine.obj : error LNK2005: "public: void __thiscall InstructionQueue::enQueue(class Instruction)" (?enQueue@InstructionQueue@@QAEXVInstruction@@@Z) already defined in InstructionQueue.obj
-TomasuloMachine.obj : error LNK2005: "public: int __thiscall RegisterFile::getLastIndex(void)" (?getLastIndex@RegisterFile@@QAEHXZ) already defined in RegisterFile.obj
-TomasuloMachine.obj : error LNK2005: "public: int __thiscall RegisterFile::getLastVal(void)" (?getLastVal@RegisterFile@@QAEHXZ) already defined in RegisterFile.obj
-TomasuloMachine.obj : error LNK2005: "public: int __thiscall ReservationStation::getOpcode(int)" (?getOpcode@ReservationStation@@QAEHH@Z) already defined in ReservationStation.obj
-TomasuloMachine.obj : error LNK2005: "public: int __thiscall ReservationStation::getQj(int)" (?getQj@ReservationStation@@QAEHH@Z) already defined in ReservationStation.obj
-TomasuloMachine.obj : error LNK2005: "public: int __thiscall ReservationStation::getQk(int)" (?getQk@ReservationStation@@QAEHH@Z) already defined in ReservationStation.obj
-TomasuloMachine.obj : error LNK2005: "public: int __thiscall RegisterFile::getVal(int)" (?getVal@RegisterFile@@QAEHH@Z) already defined in RegisterFile.obj
-TomasuloMachine.obj : error LNK2005: "public: int __thiscall ReservationStation::getVj(int)" (?getVj@ReservationStation@@QAEHH@Z) already defined in ReservationStation.obj
-TomasuloMachine.obj : error LNK2005: "public: int __thiscall ReservationStation::getVk(int)" (?getVk@ReservationStation@@QAEHH@Z) already defined in ReservationStation.obj
-TomasuloMachine.obj : error LNK2005: "public: bool __thiscall ReservationStation::isBusy(int)" (?isBusy@ReservationStation@@QAE_NH@Z) already defined in ReservationStation.obj
-TomasuloMachine.obj : error LNK2005: "public: bool __thiscall InstructionQueue::isEmpty(void)" (?isEmpty@InstructionQueue@@QAE_NXZ) already defined in InstructionQueue.obj
-TomasuloMachine.obj : error LNK2005: "public: bool __thiscall InstructionQueue::isFull(void)" (?isFull@InstructionQueue@@QAE_NXZ) already defined in InstructionQueue.obj
-TomasuloMachine.obj : error LNK2005: "public: bool __thiscall ReservationStation::isFull(class Instruction)" (?isFull@ReservationStation@@QAE_NVInstruction@@@Z) already defined in ReservationStation.obj
-TomasuloMachine.obj : error LNK2005: "public: bool __thiscall ReservationStation::isQReady(void)" (?isQReady@ReservationStation@@QAE_NXZ) already defined in ReservationStation.obj
-TomasuloMachine.obj : error LNK2005: "public: bool __thiscall ReservationStation::isVReady(void)" (?isVReady@ReservationStation@@QAE_NXZ) already defined in ReservationStation.obj
-TomasuloMachine.obj : error LNK2005: "public: void __thiscall Instruction::printInstr(void)" (?printInstr@Instruction@@QAEXXZ) already defined in InstructionQueue.obj
-TomasuloMachine.obj : error LNK2005: "public: void __thiscall RegisterFile::printRF(void)" (?printRF@RegisterFile@@QAEXXZ) already defined in RegisterFile.obj
-TomasuloMachine.obj : error LNK2005: "public: void __thiscall ReservationStation::printRS(void)" (?printRS@ReservationStation@@QAEXXZ) already defined in ReservationStation.obj
-TomasuloMachine.obj : error LNK2005: "public: void __thiscall ReservationStation::setOpcode(int,int)" (?setOpcode@ReservationStation@@QAEXHH@Z) already defined in ReservationStation.obj
-TomasuloMachine.obj : error LNK2005: "public: void __thiscall ReservationStation::setQj(int,int)" (?setQj@ReservationStation@@QAEXHH@Z) already defined in ReservationStation.obj
-TomasuloMachine.obj : error LNK2005: "public: void __thiscall ReservationStation::setQk(int,int)" (?setQk@ReservationStation@@QAEXHH@Z) already defined in ReservationStation.obj
-TomasuloMachine.obj : error LNK2005: "public: void __thiscall RegisterFile::setVal(int,int)" (?setVal@RegisterFile@@QAEXHH@Z) already defined in RegisterFile.obj
-TomasuloMachine.obj : error LNK2005: "public: void __thiscall ReservationStation::setVj(int,class RegisterFile)" (?setVj@ReservationStation@@QAEXHVRegisterFile@@@Z) already defined in ReservationStation.obj
-TomasuloMachine.obj : error LNK2005: "public: void __thiscall ReservationStation::setVk(int,class RegisterFile)" (?setVk@ReservationStation@@QAEXHVRegisterFile@@@Z) already defined in ReservationStation.obj
-C:\Users\scull\source\repos\TomasuloMachine-ComputerArch\TomasuloMachine-ComputerArch\Debug\Tomasulo Machine.exe : fatal error LNK1169: one or more multiply defined symbols found
+﻿  TomasuloMachine.cpp
+C:\Users\scull\source\repos\TomasuloMachine-ComputerArch\TomasuloMachine-ComputerArch\TomasuloMachine.cpp(516,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\scull\source\repos\TomasuloMachine-ComputerArch\TomasuloMachine-ComputerArch\TomasuloMachine.cpp(492,8): warning C4101: 'mychar': unreferenced local variable
+  Tomasulo Machine.vcxproj -> C:\Users\scull\source\repos\TomasuloMachine-ComputerArch\TomasuloMachine-ComputerArch\Debug\Tomasulo Machine.exe
