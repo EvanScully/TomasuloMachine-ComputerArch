@@ -4,11 +4,13 @@
 #include <fstream>
 #include <string>
 
+class Station;
 
 class ExecutionUnit {
 private:
 
 public:
+	ExecutionUnit();
 	bool busy;
 	bool ready;
 	int startClock;
@@ -17,5 +19,5 @@ public:
 	Station Broadcast();
 	bool isBusy();
 	bool isReady(int currentClock);
-	void execute(Station station, int startClock);
+	void execute(Station broadcast, int startClock);
 };
