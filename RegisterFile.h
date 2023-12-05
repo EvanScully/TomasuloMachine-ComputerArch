@@ -5,7 +5,6 @@
 #ifndef REGISTERFILE_H
 #define REGISTERFILE_H
 
-#define IQ_SIZE 100
 #define RF_SIZE 8
 
 using namespace std;

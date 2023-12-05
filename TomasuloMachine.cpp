@@ -80,6 +80,9 @@ bool ReservationStation::isVReady() {
 bool ReservationStation::isQReady() {
 	return 0;
 }
+void ReservationStation::setOrder(int loc, int order) {
+	stat[loc].order = order;
+}
 void ReservationStation::setOpcode(int loc, int op) {
 	stat[loc].Opcode = op;
 }
@@ -104,7 +107,7 @@ void ReservationStation::setDest(int loc, int dest) {
 void ReservationStation::setBroad(int loc, int broad) {
 	stat[loc].Broad = broad;
 }
-void ReservationStation::setIsBroadcasting(int loc, bool val) {
+void ReservationStation::setIsBroadcasting(int loc, int val) {
 	stat[loc].isBroadcasting = val;
 }
 int ReservationStation::getOpcode(int loc) {
@@ -146,6 +149,7 @@ void ReservationStation::clearStation(int loc) {
 }
 
 void ReservationStation::printRS() {
+	cout << "Reservation Station:"  << "\n";
 	cout << "      Busy    Op    Vj    Vk    Qj    Qk    Disp \n";
 	std::string opString = "   ";
 	for (int i = 0; i < 5; i++) {
@@ -162,14 +166,36 @@ void ReservationStation::printRS() {
 		}
 		cout << "RS" << i+1 << "    " << stat[i].Busy << "     " << opString << "    " << stat[i].Vj	<< "     " << stat[i].Vk << "     " << stat[i].Qj << "     " << stat[i].Qk << "      " << stat[i].Disp << "\n";
 	}
+	cout << "\n";
 }
 
 Station ReservationStation::DispatchAS() {
 	if (stat[0].Opcode != 4) {
+		for (int i = 0; i < 5; i++) {
+			if (stat[0].order > stat[i].order) {
+				if (stat[0].Qj == stat[i].Dest || stat[0].Qk == stat[i].Dest) {
+					return Station();
+				} 
+			}
+		}
 		return stat[0];
 	} else if (stat[1].Opcode != 4) {
+		for (int i = 0; i < 5; i++) {
+			if (stat[1].order > stat[i].order) {
+				if (stat[1].Qj == stat[i].Dest || stat[1].Qk == stat[i].Dest) {
+					return Station();
+				} 
+			}
+		}
 		return stat[1];
 	} else if (stat[2].Opcode != 4) {
+		for (int i = 0; i < 5; i++) {
+			if (stat[2].order > stat[i].order) {
+				if (stat[2].Qj == stat[i].Dest || stat[2].Qk == stat[i].Dest) {
+					return Station();
+				} 
+			}
+		}
 		return stat[2];
 	}
 	return Station();
@@ -177,8 +203,22 @@ Station ReservationStation::DispatchAS() {
 
 Station ReservationStation::DispatchMD() {
 	if (stat[3].Opcode != 4) {
+		for (int i = 0; i < 5; i++) {
+			if (stat[3].order > stat[i].order) {
+				if (stat[3].Qj == stat[i].Dest || stat[3].Qk == stat[i].Dest) {
+					return Station();
+				} 
+			}
+		}
 		return stat[3];
 	} else if (stat[4].Opcode != 4) {
+		for (int i = 0; i < 5; i++) {
+			if (stat[4].order > stat[i].order) {
+				if (stat[4].Qj == stat[i].Dest || stat[4].Qk == stat[i].Dest) {
+					return Station();
+				} 
+			}
+		}
 		return stat[4];
 	}
 	return Station();
@@ -213,26 +253,34 @@ void ExecutionUnit::execute(Station station, int currentClock) {
     startClock = currentClock;
     busy = 1;
     broadcast = station;
-    if (station.Opcode == 0) {
+	if (broadcast.Opcode == 0) {
         clockDifference = 2;
-        broadcast.Broad = broadcast.Vj + broadcast.Vk;
     }
-    if (station.Opcode == 1) {
+    if (broadcast.Opcode == 1) {
         clockDifference = 2;
-        broadcast.Broad = station.Vj - station.Vk;
     }
-    if (station.Opcode == 2) {
+    if (broadcast.Opcode == 2) {
         clockDifference = 10;
-        broadcast.Broad = station.Vj * station.Vk;
     }
-    if (station.Opcode == 3) {
+    if (broadcast.Opcode == 3) {
         clockDifference = 40;
-        broadcast.Broad = station.Vj / station.Vk;
     }
 }
 
 Station ExecutionUnit::Broadcast() {
     busy = 0;
+    if (broadcast.Opcode == 0) {
+        broadcast.Broad = broadcast.Vj + broadcast.Vk;
+    }
+    if (broadcast.Opcode == 1) {
+        broadcast.Broad = broadcast.Vj - broadcast.Vk;
+    }
+    if (broadcast.Opcode == 2) {
+        broadcast.Broad = broadcast.Vj * broadcast.Vk;
+    }
+    if (broadcast.Opcode == 3) {
+        broadcast.Broad = broadcast.Vj / broadcast.Vk;
+    }
     return broadcast;
 }
 //---------------------------------------------------------------//
@@ -283,9 +331,10 @@ void RegisterFile::clearRF() {
 void RegisterFile::printRF() {
 	cout << "Register File: \n";
 	for (int i = 0; i < RF_SIZE; i++) {
-		cout << "r" << i << " : ";
+		cout << "R" << i << " : ";
 		cout << rFile[i] << endl;
 	}
+	cout << "\n";
 }
 //---------------------------------------------------------------//
 
@@ -338,14 +387,15 @@ Instruction InstructionQueue::Issue() {
 void InstructionQueue::displayQueue()
 {
 	int i;
+	cout << "Instruction Queue:" << "\n";
 	if (isEmpty()) {
-		cout << endl << "Instruction Queue is Empty!!" << endl;
+		cout << "Empty!!" << "\n";
 	}
 	else {
-		cout << "Instructions:\n";
 		for (i = front; i <= rear; i++)
 			myqueue[i].printInstr();
 	}
+	cout << "\n";
 }
 //---------------------------------------------------------------//
 
@@ -370,19 +420,19 @@ void Instruction::printInstr() {
 		return;
 	}
 	else {
-		cout << "r" << Rd << " = r" << Rs;
+		cout << "R" << Rd << " = R" << Rs;
 		switch (operation) {
 		case 0:
-			cout << " + r" << Rt << endl;
+			cout << " + R" << Rt << endl;
 			break;
 		case 1:
-			cout << " - r" << Rt << endl;
+			cout << " - R" << Rt << endl;
 			break;
 		case 2:
-			cout << " * r" << Rt << endl;
+			cout << " * R" << Rt << endl;
 			break;
 		case 3:
-			cout << " / r" << Rt << endl;
+			cout << " / R" << Rt << endl;
 			break;
 		default:
 			break;
@@ -391,9 +441,36 @@ void Instruction::printInstr() {
 }
 //---------------------------------------------------------------//
 
+//---------------------------------------------------------------//
+//         Register Allocation Table Class Functions :
+//---------------------------------------------------------------//
+RegisterAllocationTable::RegisterAllocationTable(){
+    for (int i = 0; i < RF_SIZE; i++){
+        RAT[i] = -1;
+    }
+}	
+void RegisterAllocationTable::setLoc(int location, int val){
+    RAT[location] = val;
+}
+int RegisterAllocationTable::callLoc(int location){
+	return RAT[location];
+}
+void RegisterAllocationTable::printRAT(){
+	cout << "Register Allocation Table:" << "\n";
+    for(int i = 0; i < RF_SIZE; i++){
+        std::cout << "R" << i << ": ";
+        if(RAT[i] == -1)
+            std::cout << "\n";
+        else
+            std::cout << "RS" << RAT[i]+1 << std::endl;
+    }
+}
+//---------------------------------------------------------------//
+
 int main() {
 	int numInstr = 0;
 	int numClockCycles = 0;
+	int order = 0;
 	int posInstr = 0;
 	int queuePos = 0;
 	int rfSize = 0;
@@ -408,6 +485,7 @@ int main() {
 	ExecutionUnit executionUnitAS = ExecutionUnit();
 	ExecutionUnit executionUnitMD = ExecutionUnit();
 	Station broadcast = Station();
+	RegisterAllocationTable rat = RegisterAllocationTable();
 
 	std::ifstream myfile("Instructions.txt");
 	if (myfile.is_open()) {
@@ -463,33 +541,43 @@ int main() {
 		}
 	} //End array Creation
 
+	//Clock Cycle 0 Printout
+	cout << "\n";
+	cout << "Clock Cycle: 0" << "\n";
+	cout << "\n";
+	iQueue.displayQueue();
+	regFile.printRF();
+	reservationStation.printRS();
+	rat.printRAT();
+
 	for(int i=0; i < numClockCycles; i++) {
 		clockCycle++;
 		cout << "Clock Cycle: " << clockCycle << "\n";
+		cout << "\n";
 		
 		//Broadcast
-		if (executionUnitAS.isReady(clockCycle)) {
-			broadcast = executionUnitAS.Broadcast();
+		if (executionUnitMD.isReady(clockCycle)) {
+			broadcast = executionUnitMD.Broadcast();
 			broadcast.isBroadcasting = 1;
-			executionUnitAS.busy = 0;
-			reservationStation.setBusy(dispatchAS.getPos(), 0);
-			reservationStation.clearStation(dispatchAS.getPos());
 		}
-		if (!broadcast.isBroadcasting) {
-			if (executionUnitMD.isReady(clockCycle)) {
-				broadcast = executionUnitMD.Broadcast();
-				broadcast.isBroadcasting = 1;
-				executionUnitMD.busy = 0;
-				reservationStation.setBusy(dispatchMD.getPos(), 0);
-				reservationStation.clearStation(dispatchMD.getPos());
+		if (broadcast.isBroadcasting == 0) {
+			if (executionUnitAS.isReady(clockCycle)) {
+				broadcast = executionUnitAS.Broadcast();
+				broadcast.isBroadcasting = 2;
 			}
 		}
 
 		if (broadcast.isBroadcasting) {
 			regFile.setVal(broadcast.Dest, broadcast.Broad);
-			//Set RAT
+			for (int i = 0; i < 5; i++) {
+				if (reservationStation.getQj(i) == broadcast.Dest) {
+					reservationStation.setVj(i, regFile);
+				}
+				if (reservationStation.getQk(i) == broadcast.Dest) {
+					reservationStation.setVk(i, regFile);
+				}
+			}
 			//Set ReservationStation
-			broadcast.isBroadcasting = 0;
 		}
 
 		//Dispatch
@@ -509,6 +597,20 @@ int main() {
 			}
 		}
 
+		//Broadcast free the Reservation Station
+		if (broadcast.isBroadcasting == 1) {
+			reservationStation.setBusy(dispatchMD.getPos(), 0);
+			reservationStation.clearStation(dispatchMD.getPos());
+			executionUnitMD.busy = 0;
+			broadcast.isBroadcasting = 0;
+		}
+		if (broadcast.isBroadcasting == 2) {
+			reservationStation.setBusy(dispatchAS.getPos(), 0);
+			reservationStation.clearStation(dispatchAS.getPos());
+			executionUnitAS.busy = 0;
+			broadcast.isBroadcasting = 0;
+		}
+		
 		//Issue
 		if (reservationStation.isFull(issue) == 0) {
 			issue = iQueue.Issue();
@@ -522,6 +624,9 @@ int main() {
 					reservationStation.setQk(0, issue.Rt);
 					reservationStation.setVj(0, regFile);
 					reservationStation.setVk(0, regFile);
+					order++;
+					reservationStation.setOrder(0, order);
+					rat.setLoc(issue.Rd, 0);
 				} else if (!reservationStation.isBusy(1)) {
 					reservationStation.setBusy(1, true);
 					reservationStation.setOpcode(1, issue.operation);
@@ -530,6 +635,9 @@ int main() {
 					reservationStation.setQk(1, issue.Rt);
 					reservationStation.setVj(1, regFile);
 					reservationStation.setVk(1, regFile);
+					order++;
+					reservationStation.setOrder(1, order);
+					rat.setLoc(issue.Rd, 1);
 				} else if (!reservationStation.isBusy(2)) {
 					reservationStation.setBusy(2, true);
 					reservationStation.setOpcode(2, issue.operation);
@@ -538,6 +646,9 @@ int main() {
 					reservationStation.setQk(2, issue.Rt);
 					reservationStation.setVj(2, regFile);
 					reservationStation.setVk(2, regFile);
+					order++;
+					reservationStation.setOrder(2, order);
+					rat.setLoc(issue.Rd, 2);
 				}
 			}
 			if (issue.operation == 2 || issue.operation == 3) {
@@ -549,6 +660,9 @@ int main() {
 					reservationStation.setQk(3, issue.Rt);
 					reservationStation.setVj(3, regFile);
 					reservationStation.setVk(3, regFile);
+					order++;
+					reservationStation.setOrder(3, order);
+					rat.setLoc(issue.Rd, 3);
 				} else if (!reservationStation.isBusy(4)) {
 					reservationStation.setBusy(4, true);
 					reservationStation.setOpcode(4, issue.operation);
@@ -557,10 +671,15 @@ int main() {
 					reservationStation.setQk(4, issue.Rt);
 					reservationStation.setVj(4, regFile);
 					reservationStation.setVk(4, regFile);
+					order++;
+					reservationStation.setOrder(4, order);
+					rat.setLoc(issue.Rd, 4);
 				}
 			}
 		}
-		reservationStation.printRS();
+		iQueue.displayQueue();
 		regFile.printRF();
+		reservationStation.printRS();
+		rat.printRAT();
 	}
 }

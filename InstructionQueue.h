@@ -4,7 +4,7 @@
 #include <fstream>
 #include <string>
 
-#define IQ_SIZE 100
+#define IQ_SIZE 10
 #define RF_SIZE 8
 
 #ifndef INSTRUCTIONQUEUE_H

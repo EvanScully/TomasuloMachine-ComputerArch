@@ -8,7 +8,7 @@
 #include <array>
 #include <vector>
 
-#define IQ_SIZE 100
+#define IQ_SIZE 10
 #define RF_SIZE 8
 
 #ifndef TOMASULOMACHINE_H
