@@ -13,6 +13,7 @@
 class Station {
 public:
 	Station();
+	int order;
 	int pos;
 	bool Busy;
 	int Opcode;
@@ -23,7 +24,7 @@ public:
 	int Disp;
 	int Dest;
 	int Broad;
-	bool isBroadcasting;
+	int isBroadcasting;
 	int getPos();
 };
 
@@ -37,6 +38,7 @@ public:
 	bool isFull(Instruction instr);
 	bool isVReady();
 	bool isQReady();
+	void setOrder(int loc, int order);
 	void setOpcode(int loc, int oper);
 	void setVj(int loc, RegisterFile rFile);
 	void setVk(int loc, RegisterFile rFile);
@@ -45,8 +47,9 @@ public:
 	void setDisp(int loc, int disp);
 	void setDest(int loc, int dest);
 	void setBroad(int loc, int broad);
-	void setIsBroadcasting(int loc, bool val);
+	void setIsBroadcasting(int loc, int val);
 	void clearStation(int loc);
+	int getOrder(int loc);
 	int getOpcode(int loc);
 	int getVj(int loc);
 	int getVk(int loc);
