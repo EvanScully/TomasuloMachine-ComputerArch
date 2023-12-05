@@ -232,7 +232,7 @@ ExecutionUnit::ExecutionUnit() {
     busy = false;
     ready = false;
     startClock = 0;
-    clockDifference = 0;
+    clockDifference = 100;
     broadcast = Station();
 }
 
@@ -240,17 +240,16 @@ bool ExecutionUnit::isBusy() {
     return busy;
 }
 
-bool ExecutionUnit::isReady(int currentClock) {
-    if ((currentClock - startClock) == clockDifference) {
+bool ExecutionUnit::isReady( int currentClock) {
+	ready = false;
+    if (((currentClock - startClock) >= clockDifference)) {
         ready = true;
-    } else {
-        ready = false;
-    }
+	}
     return ready;
 }
 
-void ExecutionUnit::execute(Station station, int currentClock) {
-    startClock = currentClock;
+void ExecutionUnit::execute(Station station, int cc) {
+    startClock = cc;
     busy = 1;
     broadcast = station;
 	if (broadcast.Opcode == 0) {
@@ -464,6 +463,7 @@ void RegisterAllocationTable::printRAT(){
         else
             std::cout << "RS" << RAT[i]+1 << std::endl;
     }
+	cout << "\n";
 }
 //---------------------------------------------------------------//
 
@@ -556,6 +556,7 @@ int main() {
 		//cout << "\n";
 		
 		//Broadcast
+		broadcast.isBroadcasting = 0;
 		if (executionUnitMD.isReady(clockCycle)) {
 			broadcast = executionUnitMD.Broadcast();
 			broadcast.isBroadcasting = 1;
@@ -603,12 +604,14 @@ int main() {
 			reservationStation.clearStation(dispatchMD.getPos());
 			executionUnitMD.busy = 0;
 			broadcast.isBroadcasting = 0;
+			executionUnitMD = ExecutionUnit();
 		}
 		if (broadcast.isBroadcasting == 2) {
 			reservationStation.setBusy(dispatchAS.getPos(), 0);
 			reservationStation.clearStation(dispatchAS.getPos());
 			executionUnitAS.busy = 0;
 			broadcast.isBroadcasting = 0;
+			executionUnitAS = ExecutionUnit();
 		}
 		
 		//Issue
